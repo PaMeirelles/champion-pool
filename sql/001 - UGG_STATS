@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS UGG_STATS (
+    Champion1 VARCHAR(255) NOT NULL,
+    Champion2 VARCHAR(255) NOT NULL,
+    Winrate FLOAT NOT NULL,
+    Matches INT NOT NULL,
+    ELO VARCHAR(50) NOT NULL,
+    Patch FLOAT NOT NULL,
+    PRIMARY KEY (Champion1, Champion2)
+);
