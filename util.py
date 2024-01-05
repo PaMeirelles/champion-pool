@@ -43,4 +43,4 @@ def winrate_url_formatter(champ1:str, champ2:str, elo:Elo):
 def tierlist_formatter(role:Role, elo:Elo):
     return f"https://u.gg/lol/{role_to_str(role)}-tier-list?rank={elo_to_str(elo)}"
 
-print(tierlist_formatter(Role.ADC, Elo.PLATINUM))
+
