@@ -1,6 +1,5 @@
 from constants import Elo, Role
 from util import tierlist_formatter
-import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -8,23 +7,22 @@ from selenium.webdriver.support import expected_conditions as EC
 import re
 import time
 
-def get_champions(role: Role, elo: Elo):
+def get_champions(role: Role, elo: Elo, debug=False):
     url = tierlist_formatter(role, elo)
     driver = webdriver.Chrome()
     driver.get(url)
     time.sleep(10)
     
-    # Scroll to the bottom of the page
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    time.sleep(3)  # Add a short sleep to allow the content to load after scrolling
+    time.sleep(3) 
 
-    to_puto = driver.find_elements(By.XPATH, ".//div[@class='rt-tr-group']")
+    rows = driver.find_elements(By.XPATH, ".//div[@class='rt-tr-group']")
 
     champions = []
     regex_pattern = re.compile(r'\/lol\/champions\/(\w+).*')
 
-    for element in to_puto:
-        a_tag = element.find_element(By.XPATH, ".//a")
+    for row in rows:
+        a_tag = row.find_element(By.XPATH, ".//a")
         if not a_tag: continue
         href = a_tag.get_attribute('href')
         match = regex_pattern.search(href)
@@ -32,15 +30,16 @@ def get_champions(role: Role, elo: Elo):
             champion_name = match.group(1)
             champions.append(champion_name)
         else:
-            print(href)
-
+            if debug:
+                print(f"Link {href} não passou no regex")
     driver.quit()
     unique_champions = list(set(champions))
-    unique_champions.sort()
-    return unique_champions, len(unique_champions) 
+    if debug:
+        print(f"{len(unique_champions)} campeões diferentes")
+    return unique_champions
 
 # Example usage
-role = Role.ADC
+role = Role.SUPPORT
 elo = Elo.PLATINUM
-champion_names = get_champions(role, elo)
+champion_names = get_champions(role, elo, debug=True)
 print(champion_names)
