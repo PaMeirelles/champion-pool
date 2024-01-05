@@ -11,3 +11,11 @@ class Elo(Enum):
     MASTER = 8
     GRANDMASTER = 9
     CHALLENGER = 10
+
+
+class Role(Enum):
+    TOP = 1
+    JUNGLE = 2
+    MID = 3
+    ADC = 4
+    SUPPORT = 5

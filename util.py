@@ -1,4 +1,5 @@
-from constants import Elo
+from constants import Elo, Role
+
 
 def elo_to_str (elo:Elo):
     if elo == Elo.IRON:
@@ -21,8 +22,25 @@ def elo_to_str (elo:Elo):
         return "grandmaster"
     elif elo == Elo.CHALLENGER:
         return "challenger"
+    
 
-def url_formatter(champ1:str, champ2:str, elo:Elo):
+def role_to_str (role:Role):
+    if role == Role.TOP:
+        return "top-lane"
+    if role == Role.JUNGLE:
+        return "jungle"
+    if role == Role.MID:
+        return "mid-lane"
+    if role == Role.ADC:
+        return "adc"
+    if role == Role.SUPPORT:
+        return "support"
+
+def winrate_url_formatter(champ1:str, champ2:str, elo:Elo):
     return f"https://u.gg/lol/champions/{champ1}/build?rank={elo_to_str(elo)}&opp={champ2}"
 
-print(url_formatter("pantheon", "ornn", Elo.PLATINUM))
+
+def tierlist_formatter(role:Role, elo:Elo):
+    return f"https://u.gg/lol/{role_to_str(role)}-tier-list?rank={elo_to_str(elo)}"
+
+
